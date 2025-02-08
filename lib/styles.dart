@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-final btnStyle = ButtonStyle(
+/// Button style used for the left and right movement buttons.
+final ButtonStyle btnStyle = ButtonStyle(
   backgroundColor: WidgetStateProperty.all(Colors.grey),
   shape: WidgetStateProperty.all(
     RoundedRectangleBorder(
@@ -10,7 +11,8 @@ final btnStyle = ButtonStyle(
   overlayColor: WidgetStateProperty.all(Colors.transparent),
 );
 
-final txtStyle = TextStyle(
+/// Text style used for the button labels.
+const TextStyle txtStyle = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w600,
   color: Colors.white,

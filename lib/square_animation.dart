@@ -1,20 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:movingsquare/styles.dart';
 
+/// A stateful widget that animates a square movement left and right.
+///
+/// The square starts in the center and can move fully to the left or right
+/// when the respective button is clicked. The buttons disable when movement
+/// is in progress or when the square reaches the edge.
 class SquareAnimation extends StatefulWidget {
+  /// Creates an instance of `SquareAnimation`.
   const SquareAnimation({super.key});
 
   @override
-  State<SquareAnimation> createState() {
-    return SquareAnimationState();
-  }
+  State<SquareAnimation> createState() => SquareAnimationState();
 }
 
+/// Manages the state of `SquareAnimation`, handling movement and button states.
 class SquareAnimationState extends State<SquareAnimation> {
-  static const _squareSize = 150.0;
+  /// The fixed size of the square.
+  static const double _squareSize = 150.0;
+
+  /// The current left position of the square.
   double _leftPosition = 0.0;
+
+  /// Indicates if the square is currently moving.
   bool _moving = false;
+
+  /// Indicates if the square can move right.
   bool _canMoveRight = true;
+
+  /// Indicates if the square can move left.
   bool _canMoveLeft = true;
 
   @override
@@ -27,6 +41,10 @@ class SquareAnimationState extends State<SquareAnimation> {
     });
   }
 
+  /// Moves the square to a new position with animation.
+  ///
+  /// Disables both buttons while the square is moving.
+  /// Re-enables buttons when movement is complete based on position.
   void _moveSquare(double newPosition) {
     setState(() {
       _moving = true;
@@ -34,7 +52,7 @@ class SquareAnimationState extends State<SquareAnimation> {
       _canMoveLeft = false;
     });
 
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 1), () {
       setState(() {
         _leftPosition = newPosition;
         _moving = false;
@@ -46,7 +64,7 @@ class SquareAnimationState extends State<SquareAnimation> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
+    final double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       backgroundColor: Colors.black87,
@@ -57,7 +75,7 @@ class SquareAnimationState extends State<SquareAnimation> {
               children: [
                 AnimatedPositioned(
                   left: _leftPosition,
-                  duration: Duration(seconds: 1),
+                  duration: const Duration(seconds: 1),
                   child: Container(
                     width: _squareSize,
                     height: _squareSize,
@@ -77,26 +95,18 @@ class SquareAnimationState extends State<SquareAnimation> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ElevatedButton(
-                  onPressed: _canMoveLeft && !_moving
-                      ? () {
-                          _moveSquare(0);
-                        }
-                      : null,
+                  onPressed: _canMoveLeft && !_moving ? () => _moveSquare(0) : null,
                   style: btnStyle,
-                  child: Text(
+                  child: const Text(
                     'Right',
                     style: txtStyle,
                   ),
                 ),
                 const SizedBox(width: 8),
                 ElevatedButton(
-                  onPressed: _canMoveRight && !_moving
-                      ? () {
-                          _moveSquare(screenWidth - _squareSize);
-                        }
-                      : null,
+                  onPressed: _canMoveRight && !_moving ? () => _moveSquare(screenWidth - _squareSize) : null,
                   style: btnStyle,
-                  child: Text(
+                  child: const Text(
                     'Left',
                     style: txtStyle,
                   ),
